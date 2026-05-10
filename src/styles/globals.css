@@ -2,10 +2,10 @@
 
 :root {
   /* COLORS */
-  --bg: #0b1120;
+  --bg: #4a75f6;
   --surface: #eba7c2;
-  --surface2: #1b263b;
-  --border: #243247;
+  --surface2: #ffffff;
+  --border: #662727;
 
   --accent: #3b82f6;
   --accent-hover: #2563eb;

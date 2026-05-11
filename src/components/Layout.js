@@ -239,7 +239,6 @@ export default function Layout({ children }) {
           </button>
         </div>
 
-        {
       {/* ─────────────────────────────
             CONTENU PRINCIPAL
       ───────────────────────────── */}

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useTheme } from '../hooks/useTheme';
 
 const navItems = [
   { href: '/',             icon: '◈', label: 'Tableau de bord' },

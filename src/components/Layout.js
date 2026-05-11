@@ -17,7 +17,6 @@ export default function Layout({ children }) {
   const router = useRouter();
   const [theme, setTheme] = useState('light');
 
-  // Lire le thème sauvegardé au chargement
   useEffect(() => {
     const saved = localStorage.getItem('theme') || 'light';
     setTheme(saved);
@@ -36,9 +35,7 @@ export default function Layout({ children }) {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
 
-      {/* ─────────────────────────────
-              SIDEBAR
-      ───────────────────────────── */}
+      {/* SIDEBAR */}
       <aside style={{
         width: 260,
         background: dark ? 'var(--surface)' : '#ffffff',
@@ -179,11 +176,8 @@ export default function Layout({ children }) {
           })}
         </nav>
 
-        {/* ─────────────────────────────
-            BOUTON DARK / LIGHT  ← ICI
-            (entre nav et footer)
-        ───────────────────────────── */}
-        <div style={{ padding: '0 12px', marginBottom: 10 }}>
+        {/* Bouton Dark / Light */}
+        <div style={{ padding: '12px 12px 0' }}>
           <button
             onClick={toggleTheme}
             style={{
@@ -239,9 +233,9 @@ export default function Layout({ children }) {
           </button>
         </div>
 
-      {/* ─────────────────────────────
-            CONTENU PRINCIPAL
-      ───────────────────────────── */}
+      </aside>
+
+      {/* CONTENU PRINCIPAL */}
       <main style={{
         marginLeft: 260,
         flex: 1,

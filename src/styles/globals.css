@@ -20,6 +20,84 @@
   --shadow-md: 0 4px 24px rgba(124,111,247,0.10);
   --shadow-lg: 0 8px 40px rgba(124,111,247,0.13);
 }
+[data-theme="dark"] {
+  --bg: #070b14;
+  --surface: #0e1523;
+  --surface2: #141e2e;
+  --border: #1e2d42;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] .card:hover {
+  border-color: rgba(124,111,247,0.3);
+  box-shadow: 0 0 0 1px rgba(124,111,247,0.1),
+              0 8px 32px rgba(0,0,0,0.3);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--surface2);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus,
+[data-theme="dark"] textarea:focus {
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(124,111,247,0.2);
+}
+
+[data-theme="dark"] select option {
+  background: var(--surface);
+  color: var(--text);
+}
+
+[data-theme="dark"] td {
+  border-bottom-color: rgba(30,45,66,0.6);
+}
+
+[data-theme="dark"] tr:hover td {
+  background: rgba(124,111,247,0.05);
+  color: var(--text);
+}
+
+[data-theme="dark"] .progress-bar {
+  background: var(--border);
+}
+
+[data-theme="dark"] .badge-green  { background: rgba(16,185,129,0.15);  color: #34d399; }
+[data-theme="dark"] .badge-red    { background: rgba(239,68,68,0.15);   color: #f87171; }
+[data-theme="dark"] .badge-orange { background: rgba(249,115,22,0.15);  color: #fb923c; }
+[data-theme="dark"] .badge-blue   { background: rgba(124,111,247,0.15); color: #a78bfa; }
+[data-theme="dark"] .badge-gray   { background: rgba(100,116,139,0.15); color: #94a3b8; }
+
+[data-theme="dark"] .modal-overlay {
+  background: rgba(0,0,0,0.7);
+}
+
+[data-theme="dark"] .modal {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] .btn-ghost {
+  background: var(--surface2);
+  border-color: var(--border);
+  color: var(--text-dim);
+}
+
+[data-theme="dark"] .btn-danger {
+  background: rgba(239,68,68,0.12);
+  border-color: rgba(239,68,68,0.2);
+}
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 

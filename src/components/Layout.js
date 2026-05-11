@@ -239,40 +239,7 @@ export default function Layout({ children }) {
           </button>
         </div>
 
-        {/* ─────────────────────────────
-                FOOTER SIDEBAR
-        ───────────────────────────── */}
-        <div style={{
-          margin: '0 12px',
-          padding: '16px',
-          borderRadius: 14,
-          background: dark
-            ? 'rgba(124,111,247,0.1)'
-            : 'linear-gradient(135deg, #ede9fe, #fce7f3)',
-          border: '1.5px solid',
-          borderColor: dark ? 'rgba(124,111,247,0.2)' : '#ddd6fe',
-        }}>
-          <div style={{
-            fontFamily: 'Plus Jakarta Sans, sans-serif',
-            fontWeight: 700,
-            fontSize: 13,
-            color: dark ? '#a78bfa' : '#5b21b6',
-            marginBottom: 4,
-          }}>Dr. LAHRECHE A.</div>
-          <div style={{
-            fontSize: 12,
-            color: dark ? '#7c6ff7' : '#7c3aed',
-            lineHeight: 1.6,
-            fontWeight: 500,
-          }}>
-            Faculté d'Informatique<br />
-            2ème Année Ingéniorat<br />
-            Deadline : 31/05/2026
-          </div>
-        </div>
-
-      </aside>
-
+        {
       {/* ─────────────────────────────
             CONTENU PRINCIPAL
       ───────────────────────────── */}

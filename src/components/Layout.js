@@ -15,6 +15,7 @@ const navItems = [
 
 export default function Layout({ children }) {
   const router = useRouter();
+  const { theme, toggle } = useTheme();
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>

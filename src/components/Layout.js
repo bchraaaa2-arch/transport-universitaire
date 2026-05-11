@@ -190,6 +190,65 @@ export default function Layout({ children }) {
 
       </aside>
 
+{/* Bouton Dark/Light */}
+<div style={{ padding: '0 12px', marginBottom: 10 }}>
+  <button
+    onClick={toggle}
+    style={{
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '11px 16px',
+      borderRadius: 12,
+      background: theme === 'dark' ? '#1a2332' : '#f5f3ff',
+      border: '1.5px solid',
+      borderColor: theme === 'dark' ? '#2d3748' : '#ddd6fe',
+      cursor: 'pointer',
+      transition: 'all 0.2s',
+    }}
+  >
+    <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+      <span style={{ fontSize: 17 }}>
+        {theme === 'dark' ? '☀️' : '🌙'}
+      </span>
+      <span style={{
+        fontFamily: 'Plus Jakarta Sans, sans-serif',
+        fontWeight: 700,
+        fontSize: 13,
+        color: theme === 'dark' ? '#a78bfa' : '#5b21b6',
+      }}>
+        {theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+      </span>
+    </div>
+
+    {/* Toggle pill */}
+    <div style={{
+      width: 38,
+      height: 22,
+      borderRadius: 100,
+      background: theme === 'dark'
+        ? 'linear-gradient(135deg, #7c6ff7, #a78bfa)'
+        : '#ddd6fe',
+      position: 'relative',
+      transition: 'background 0.25s',
+      flexShrink: 0,
+    }}>
+      <div style={{
+        position: 'absolute',
+        top: 3,
+        left: theme === 'dark' ? 19 : 3,
+        width: 16,
+        height: 16,
+        borderRadius: '50%',
+        background: '#fff',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.2)',
+        transition: 'left 0.25s',
+      }} />
+    </div>
+  </button>
+</div>
+
       {/* ── Contenu principal ── */}
       <main style={{
         marginLeft: 260,

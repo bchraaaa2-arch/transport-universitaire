@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Lignes() {
   const [tab, setTab] = useState('lignes');
-  const [lignes, setLignes] = useState(mockData.lignes);
-  const [stations, setStations] = useState(mockData.stations);
+  const {lignes, setLignes} = useData();
+  const {stations, setStations} = useData();
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({});
   const [selectedLigne, setSelectedLigne] = useState(null);

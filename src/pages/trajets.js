@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Trajets() {
-  const [trajets, setTrajets] = useState(mockData.trajets);
+  const {trajets, setTrajets} = useState();
   const [filter, setFilter] = useState('all');
   const { bus, horaires, lignes } = mockData;
 

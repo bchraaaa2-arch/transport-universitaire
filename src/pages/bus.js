@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Bus() {
-  const [bus, setBus] = useState(mockData.bus);
+  const {bus, setBus} = useData();
   const [modal, setModal] = useState(null);
   const [form, setForm] = useState({ matricule_bus: '', capacite_max: '', modele: '', statut: 'actif' });
 

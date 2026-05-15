@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import { mockData } from '../data/mockData';
 import { useData } from '../context/DataContext';
 
 export default function Bus() {

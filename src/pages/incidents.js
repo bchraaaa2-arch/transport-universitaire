@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Incidents() {
-  const [incidents, setIncidents] = useState(mockData.incidents);
+  const {incidents, setIncidents} = useData();
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState({ type_incident: 'retard', description: '', date_incident: '', impact: 'moyen', id_trajet: '' });
   const { trajets, horaires, lignes, bus } = mockData;

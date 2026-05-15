@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Etudiants() {
-  const [etudiants, setEtudiants] = useState(mockData.etudiants);
+  const { etudiants, setEtudiants } = useData();
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState(null); // null | 'add' | { ...etudiant }
   const [form, setForm] = useState({ nom: '', prenom: '', matricule: '', email: '', telephone: '' });

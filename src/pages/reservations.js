@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
 import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Reservations() {
-  const [reservations, setReservations] = useState(mockData.reservations);
+  const {reservations, setReservations} = useData();
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState({ id_etudiant: '', id_trajet: '', nombre_places: 1, commentaire: '' });
   const [filter, setFilter] = useState('all');

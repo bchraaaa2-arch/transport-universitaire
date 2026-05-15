@@ -4,7 +4,7 @@ import { mockData } from '../data/mockData';
 import { useData } from '../context/DataContext';
 
 export default function Trajets() {
-  const {trajets, setTrajets} = useState();
+  const {trajets, setTrajets} = useData();
   const [filter, setFilter] = useState('all');
   const { bus, horaires, lignes } = mockData;
 

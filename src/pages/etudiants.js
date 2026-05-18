@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import { mockData } from '../data/mockData';
 import { useData } from '../context/DataContext';
 
 export default function Etudiants() {
-  const { etudiants, setEtudiants } = useData();
+  const { etudiants, setEtudiants, abonnements, lignes } = useData();
+
   const [search, setSearch] = useState('');
-  const [modal, setModal] = useState(null); // null | 'add' | { ...etudiant }
+  const [modal, setModal] = useState(null);
   const [form, setForm] = useState({ nom: '', prenom: '', matricule: '', email: '', telephone: '' });
   const [error, setError] = useState('');
 
-  const activeAbos = mockData.abonnements.filter(a => a.statut === 'actif');
-  const lignes = mockData.lignes;
+  const activeAbos = abonnements.filter(a => a.statut === 'actif');
 
   const filtered = etudiants.filter(e =>
-    [e.nom, e.prenom, e.matricule, e.email].some(v => v.toLowerCase().includes(search.toLowerCase()))
+    [e.nom, e.prenom, e.matricule, e.email].some(v =>
+      v.toLowerCase().includes(search.toLowerCase())
+    )
   );
 
   const openAdd = () => {
@@ -35,8 +36,7 @@ export default function Etudiants() {
       return;
     }
     if (modal === 'add') {
-      const newE = { ...form, id: Date.now() };
-      setEtudiants([...etudiants, newE]);
+      setEtudiants([...etudiants, { ...form, id: Date.now() }]);
     } else {
       setEtudiants(etudiants.map(e => e.id === modal.id ? { ...e, ...form } : e));
     }
@@ -44,7 +44,8 @@ export default function Etudiants() {
   };
 
   const del = (id) => {
-    if (confirm('Supprimer cet étudiant ?')) setEtudiants(etudiants.filter(e => e.id !== id));
+    if (confirm('Supprimer cet étudiant ?'))
+      setEtudiants(etudiants.filter(e => e.id !== id));
   };
 
   const getAbo = (id) => {
@@ -57,26 +58,27 @@ export default function Etudiants() {
     <Layout>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 28 }}>
         <div>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'Syne', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Gestion</div>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'Plus Jakarta Sans, sans-serif', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Gestion</div>
           <h1 style={{ fontSize: 26, fontWeight: 800 }}>Étudiants</h1>
         </div>
         <button className="btn btn-primary" onClick={openAdd}>+ Ajouter un étudiant</button>
       </div>
 
-      {/* Stats row */}
+      {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 22 }}>
         {[
-          { label: 'Total inscrits', value: etudiants.length, color: '#3b82f6' },
-          { label: 'Avec abonnement actif', value: activeAbos.length, color: '#10b981' },
-          { label: 'Sans abonnement', value: etudiants.length - etudiants.filter(e => activeAbos.find(a => a.id_etudiant === e.id)).length, color: '#f59e0b' },
+          { label: 'Total inscrits',        value: etudiants.length,                                                                                          color: '#7c6ff7' },
+          { label: 'Avec abonnement actif', value: etudiants.filter(e => activeAbos.find(a => a.id_etudiant === e.id)).length,                                color: '#10b981' },
+          { label: 'Sans abonnement',       value: etudiants.filter(e => !activeAbos.find(a => a.id_etudiant === e.id)).length,                               color: '#f59e0b' },
         ].map(s => (
           <div key={s.label} className="stat-card" style={{ '--accent-color': s.color, padding: '18px 20px' }}>
-            <div style={{ fontSize: 24, fontWeight: 800, fontFamily: 'Syne', color: 'var(--text)' }}>{s.value}</div>
+            <div style={{ fontSize: 24, fontWeight: 800, fontFamily: 'Plus Jakarta Sans, sans-serif', color: 'var(--text)' }}>{s.value}</div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>{s.label}</div>
           </div>
         ))}
       </div>
 
+      {/* Tableau */}
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)' }}>
           <input
@@ -106,15 +108,17 @@ export default function Etudiants() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{
                         width: 34, height: 34, borderRadius: '50%',
-                        background: `hsl(${(e.id * 47) % 360}, 55%, 25%)`,
+                        background: `hsl(${(e.id * 47) % 360}, 55%, 85%)`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: 'Syne', fontWeight: 700, fontSize: 12, color: `hsl(${(e.id * 47) % 360}, 70%, 70%)`,
+                        fontFamily: 'Plus Jakarta Sans, sans-serif',
+                        fontWeight: 700, fontSize: 12,
+                        color: `hsl(${(e.id * 47) % 360}, 55%, 35%)`,
                         flexShrink: 0,
                       }}>
                         {e.prenom[0]}{e.nom[0]}
                       </div>
-                      <div>
-                        <div style={{ color: 'var(--text)', fontWeight: 500 }}>{e.prenom} {e.nom}</div>
+                      <div style={{ color: 'var(--text)', fontWeight: 600 }}>
+                        {e.prenom} {e.nom}
                       </div>
                     </div>
                   </td>
@@ -123,7 +127,7 @@ export default function Etudiants() {
                   <td>{e.telephone || <span style={{ color: 'var(--text-muted)' }}>—</span>}</td>
                   <td>
                     {ligne
-                      ? <span className="badge badge-green">{ligne.code_ligne}</span>
+                      ? <span className="badge badge-blue">{ligne.code_ligne}</span>
                       : <span className="badge badge-gray">Aucun</span>}
                   </td>
                   <td>
@@ -136,39 +140,50 @@ export default function Etudiants() {
               );
             })}
             {filtered.length === 0 && (
-              <tr><td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>Aucun résultat</td></tr>
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                  Aucun résultat
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
       </div>
 
+      {/* Modal */}
       {modal && (
         <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setModal(null)}>
           <div className="modal">
-            <h2 style={{ fontFamily: 'Syne', fontSize: 18, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 18, marginBottom: 20 }}>
               {modal === 'add' ? 'Ajouter un étudiant' : `Modifier ${modal.prenom} ${modal.nom}`}
             </h2>
             {error && (
-              <div style={{ background: 'rgba(239,68,68,.12)', border: '1px solid rgba(239,68,68,.2)', borderRadius: 8, padding: '10px 14px', marginBottom: 16, color: 'var(--red)', fontSize: 13 }}>
+              <div style={{ background: '#fff0f3', border: '1px solid #fecdd3', borderRadius: 8, padding: '10px 14px', marginBottom: 16, color: 'var(--red)', fontSize: 13 }}>
                 {error}
               </div>
             )}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
               {[
-                { field: 'nom', label: 'Nom *' },
-                { field: 'prenom', label: 'Prénom *' },
+                { field: 'nom',       label: 'Nom *'       },
+                { field: 'prenom',    label: 'Prénom *'    },
                 { field: 'matricule', label: 'Matricule *' },
-                { field: 'email', label: 'Email *' },
+                { field: 'email',     label: 'Email *'     },
               ].map(({ field, label }) => (
                 <div key={field} className="form-group" style={{ margin: 0 }}>
                   <label className="form-label">{label}</label>
-                  <input value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} />
+                  <input
+                    value={form[field]}
+                    onChange={e => setForm({ ...form, [field]: e.target.value })}
+                  />
                 </div>
               ))}
             </div>
             <div className="form-group" style={{ marginTop: 14 }}>
               <label className="form-label">Téléphone</label>
-              <input value={form.telephone} onChange={e => setForm({ ...form, telephone: e.target.value })} />
+              <input
+                value={form.telephone}
+                onChange={e => setForm({ ...form, telephone: e.target.value })}
+              />
             </div>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 24 }}>
               <button className="btn btn-ghost" onClick={() => setModal(null)}>Annuler</button>

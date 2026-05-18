@@ -1,18 +1,28 @@
 import Layout from '../components/Layout';
-import { mockData } from '../data/mockData';
+import { useData } from '../context/DataContext';
 
 export default function Dashboard() {
-  const { etudiants, lignes, bus, trajets, reservations, incidents, abonnements } = mockData;
+  const {
+    etudiants,
+    lignes,
+    bus,
+    trajets,
+    reservations,
+    incidents,
+    abonnements,
+    horaires,
+    affecter,
+  } = useData();
 
-  const activeAbos = abonnements.filter(a => a.statut === 'actif');
-  const activeBus = bus.filter(b => b.statut === 'actif');
-  const pendingRes = reservations.filter(r => r.statut === 'en_attente');
+  const activeAbos    = abonnements.filter(a => a.statut === 'actif');
+  const activeBus     = bus.filter(b => b.statut === 'actif');
+  const pendingRes    = reservations.filter(r => r.statut === 'en_attente');
   const retardTrajets = trajets.filter(t => t.etat === 'en_retard');
 
-  // Taux de remplissage
+  // Taux de remplissage moyen
   const tauxMoyen = (() => {
+    if (trajets.length === 0) return 0;
     const vals = trajets.map(t => {
-      const h = mockData.horaires.find(h => h.id === t.id_horaire);
       const b = bus.find(b => b.id === t.id_bus);
       if (!b) return 0;
       return t.nb_places_reservees / b.capacite_max;
@@ -24,17 +34,17 @@ export default function Dashboard() {
   const sansAbo = etudiants.filter(e => !activeAbos.find(a => a.id_etudiant === e.id));
 
   const stats = [
-    { label: 'Étudiants inscrits', value: etudiants.length, sub: `${sansAbo.length} sans abonnement`, color: '#3b82f6', icon: '◉' },
-    { label: 'Lignes actives', value: lignes.length, sub: 'Transport universitaire', color: '#06b6d4', icon: '⬡' },
-    { label: 'Bus opérationnels', value: activeBus.length, sub: `${bus.length - activeBus.length} en maintenance`, color: '#10b981', icon: '▣' },
-    { label: 'Taux de remplissage', value: tauxMoyen + '%', sub: 'Moyenne sur tous les trajets', color: '#f59e0b', icon: '⬢' },
+    { label: 'Étudiants inscrits',  value: etudiants.length,  sub: `${sansAbo.length} sans abonnement`,          color: '#7c6ff7', icon: '◉' },
+    { label: 'Lignes actives',      value: lignes.length,      sub: 'Transport universitaire',                    color: '#06b6d4', icon: '⬡' },
+    { label: 'Bus opérationnels',   value: activeBus.length,   sub: `${bus.length - activeBus.length} en maintenance`, color: '#10b981', icon: '▣' },
+    { label: 'Taux de remplissage', value: tauxMoyen + '%',    sub: 'Moyenne sur tous les trajets',               color: '#f59e0b', icon: '⬢' },
   ];
 
   return (
     <Layout>
       {/* Header */}
       <div style={{ marginBottom: 32 }}>
-        <div style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.08em', marginBottom: 6, fontFamily: 'Syne', textTransform: 'uppercase' }}>
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', letterSpacing: '0.08em', marginBottom: 6, fontFamily: 'Plus Jakarta Sans, sans-serif', textTransform: 'uppercase' }}>
           Vue d'ensemble
         </div>
         <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>
@@ -45,21 +55,21 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Alert */}
+      {/* Alerte */}
       {(pendingRes.length > 0 || retardTrajets.length > 0) && (
         <div style={{
-          background: 'rgba(249,115,22,.1)',
-          border: '1px solid rgba(249,115,22,.25)',
-          borderRadius: 10,
+          background: 'rgba(249,115,22,.08)',
+          border: '1.5px solid rgba(249,115,22,.25)',
+          borderRadius: 12,
           padding: '14px 18px',
           marginBottom: 24,
           display: 'flex',
           gap: 12,
           alignItems: 'center',
         }}>
-          <span style={{ fontSize: 18 }}>⚠</span>
+          <span style={{ fontSize: 18 }}>⚠️</span>
           <div>
-            <span style={{ color: 'var(--orange)', fontFamily: 'Syne', fontWeight: 600, fontSize: 13 }}>
+            <span style={{ color: 'var(--orange)', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, fontSize: 13 }}>
               Alertes en cours :
             </span>
             <span style={{ color: 'var(--text-dim)', fontSize: 13, marginLeft: 8 }}>
@@ -74,12 +84,12 @@ export default function Dashboard() {
         {stats.map(s => (
           <div key={s.label} className="stat-card" style={{ '--accent-color': s.color }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'Syne', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', fontFamily: 'Plus Jakarta Sans, sans-serif', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {s.label}
               </div>
               <span style={{ fontSize: 20, color: s.color, opacity: 0.7 }}>{s.icon}</span>
             </div>
-            <div style={{ fontSize: 32, fontWeight: 800, fontFamily: 'Syne', color: 'var(--text)', lineHeight: 1 }}>
+            <div style={{ fontSize: 32, fontWeight: 800, fontFamily: 'Plus Jakarta Sans, sans-serif', color: 'var(--text)', lineHeight: 1 }}>
               {s.value}
             </div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 6 }}>{s.sub}</div>
@@ -87,24 +97,23 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Two columns */}
+      {/* Deux colonnes */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
-        {/* Lignes charge */}
+
+        {/* Taux de remplissage par ligne */}
         <div className="card">
-          <div style={{ fontFamily: 'Syne', fontWeight: 700, marginBottom: 16, fontSize: 15 }}>
+          <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, marginBottom: 16, fontSize: 15 }}>
             Taux de remplissage par ligne
           </div>
           {lignes.map(ligne => {
             const lineTrajets = trajets.filter(t => {
-              const h = mockData.horaires.find(h => h.id === t.id_horaire);
+              const h = horaires.find(h => h.id === t.id_horaire);
               return h?.id_ligne === ligne.id;
             });
-            const lineBus = bus.find(b => {
-              const aff = mockData.affecter.find(a => a.id_ligne === ligne.id && a.statut === 'actif');
-              return aff && b.id === aff.id_bus;
-            });
+            const aff = affecter.find(a => a.id_ligne === ligne.id && a.statut === 'actif');
+            const lineBus = aff ? bus.find(b => b.id === aff.id_bus) : null;
             const total = lineTrajets.reduce((s, t) => s + t.nb_places_reservees, 0);
-            const cap = lineBus ? lineBus.capacite_max * lineTrajets.length : 1;
+            const cap = lineBus ? lineBus.capacite_max * Math.max(lineTrajets.length, 1) : 1;
             const pct = Math.min(100, Math.round((total / Math.max(cap, 1)) * 100));
             const color = pct > 80 ? 'var(--red)' : pct > 60 ? 'var(--orange)' : 'var(--green)';
 
@@ -112,7 +121,7 @@ export default function Dashboard() {
               <div key={ligne.id} style={{ marginBottom: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                   <span style={{ color: 'var(--text-dim)', fontSize: 13 }}>{ligne.nom_ligne}</span>
-                  <span style={{ color, fontFamily: 'Syne', fontWeight: 600, fontSize: 13 }}>{pct}%</span>
+                  <span style={{ color, fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, fontSize: 13 }}>{pct}%</span>
                 </div>
                 <div className="progress-bar">
                   <div className="progress-fill" style={{ width: pct + '%', background: color }} />
@@ -122,18 +131,18 @@ export default function Dashboard() {
           })}
         </div>
 
-        {/* Derniers incidents */}
+        {/* Incidents récents */}
         <div className="card">
-          <div style={{ fontFamily: 'Syne', fontWeight: 700, marginBottom: 16, fontSize: 15 }}>
+          <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, marginBottom: 16, fontSize: 15 }}>
             Incidents récents
           </div>
           {incidents.length === 0 ? (
             <div style={{ color: 'var(--text-muted)', fontSize: 13, textAlign: 'center', padding: '20px 0' }}>
-              Aucun incident signalé
+              ✅ Aucun incident signalé
             </div>
           ) : incidents.map(inc => {
             const badgeMap = { leger: 'badge-blue', moyen: 'badge-orange', important: 'badge-red' };
-            const typeMap = { retard: '🕐', panne: '🔧', annulation: '❌', autre: '📋' };
+            const typeMap  = { retard: '🕐', panne: '🔧', annulation: '❌', autre: '📋' };
             return (
               <div key={inc.id} style={{
                 display: 'flex', gap: 12, alignItems: 'flex-start',
@@ -142,17 +151,13 @@ export default function Dashboard() {
                 <span style={{ fontSize: 18, marginTop: 2 }}>{typeMap[inc.type_incident]}</span>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: 'var(--text)', fontSize: 13, fontWeight: 500, fontFamily: 'Syne' }}>
+                    <span style={{ color: 'var(--text)', fontSize: 13, fontWeight: 600, fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
                       {inc.type_incident.charAt(0).toUpperCase() + inc.type_incident.slice(1)}
                     </span>
                     <span className={`badge ${badgeMap[inc.impact]}`}>{inc.impact}</span>
                   </div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 2 }}>
-                    {inc.description}
-                  </div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: 11, marginTop: 2 }}>
-                    {inc.date_incident}
-                  </div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: 12, marginTop: 2 }}>{inc.description}</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: 11, marginTop: 2 }}>{inc.date_incident}</div>
                 </div>
               </div>
             );
@@ -162,7 +167,7 @@ export default function Dashboard() {
 
       {/* Trajets récents */}
       <div className="card">
-        <div style={{ fontFamily: 'Syne', fontWeight: 700, marginBottom: 16, fontSize: 15 }}>
+        <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 700, marginBottom: 16, fontSize: 15 }}>
           Trajets récents
         </div>
         <table>
@@ -178,10 +183,14 @@ export default function Dashboard() {
           </thead>
           <tbody>
             {trajets.map(t => {
-              const h = mockData.horaires.find(h => h.id === t.id_horaire);
-              const l = h ? mockData.lignes.find(l => l.id === h.id_ligne) : null;
+              const h = horaires.find(h => h.id === t.id_horaire);
+              const l = h ? lignes.find(l => l.id === h.id_ligne) : null;
               const b = bus.find(b => b.id === t.id_bus);
-              const etatMap = { prevu: ['badge-blue', 'Prévu'], en_retard: ['badge-orange', 'En retard'], annule: ['badge-red', 'Annulé'] };
+              const etatMap = {
+                prevu:     ['badge-blue',   'Prévu'],
+                en_retard: ['badge-orange', 'En retard'],
+                annule:    ['badge-red',    'Annulé'],
+              };
               const [cls, label] = etatMap[t.etat] || ['badge-gray', t.etat];
               const pct = b ? Math.round(t.nb_places_reservees / b.capacite_max * 100) : 0;
               return (
@@ -202,6 +211,13 @@ export default function Dashboard() {
                 </tr>
               );
             })}
+            {trajets.length === 0 && (
+              <tr>
+                <td colSpan={6} style={{ textAlign: 'center', padding: '32px', color: 'var(--text-muted)' }}>
+                  Aucun trajet enregistré
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

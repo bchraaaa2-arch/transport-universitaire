@@ -3,14 +3,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const navItems = [
-  { href: '/', icon: '◈', label: 'Tableau de bord' },
-  { href: '/etudiants', icon: '◉', label: 'Étudiants' },
-  { href: '/lignes', icon: '⬡', label: 'Lignes & Stations' },
-  { href: '/bus', icon: '▣', label: 'Bus & Affectations' },
-  { href: '/trajets', icon: '⬢', label: 'Trajets' },
-  { href: '/reservations', icon: '◈', label: 'Réservations' },
-  { href: '/incidents', icon: '⚠', label: 'Incidents' },
-  { href: '/requetes', icon: '≡', label: 'Requêtes SQL' },
+  { href: '/',              icon: '⊞', label: 'Tableau de bord'   },
+  { href: '/etudiants',    icon: '◉', label: 'Étudiants'          },
+  { href: '/lignes',       icon: '⬡', label: 'Lignes & Stations'  },
+  { href: '/bus',          icon: '▣', label: 'Bus & Affectations'  },
+  { href: '/trajets',      icon: '⬢', label: 'Trajets'             },
+  { href: '/reservations', icon: '◈', label: 'Réservations'        },
+  { href: '/incidents',    icon: '⚠', label: 'Incidents'           },
+  { href: '/requetes',     icon: '≡', label: 'Requêtes SQL'         },
 ];
 
 export default function Layout({ children }) {
@@ -18,82 +18,131 @@ export default function Layout({ children }) {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
-      {/* Sidebar */}
+      {/* ── Sidebar bleu marine ── */}
       <aside style={{
         width: 240,
-        background: 'var(--surface)',
-        borderRight: '1px solid var(--border)',
+        background: 'linear-gradient(180deg, #1a3a6b 0%, #122850 100%)',
         display: 'flex',
         flexDirection: 'column',
         position: 'fixed',
         top: 0, left: 0, bottom: 0,
-        padding: '24px 0',
+        padding: '0',
         zIndex: 50,
+        boxShadow: '4px 0 20px rgba(10,24,55,0.18)',
       }}>
+
         {/* Logo */}
-        <div style={{ padding: '0 24px 28px', borderBottom: '1px solid var(--border)' }}>
+        <div style={{
+          padding: '24px 20px 20px',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+        }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{
-              width: 48, height: 48,
-              borderRadius: 14,
+              width: 46, height: 46,
+              borderRadius: 12,
               overflow: 'hidden',
               flexShrink: 0,
-              boxShadow: '0 4px 14px rgba(30,58,138,0.25)',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              border: '2px solid rgba(255,255,255,0.2)',
             }}>
               <Image
                 src="/logo.png"
-                alt="Naviguer logo"
-                width={48}
-                height={48}
+                alt="Naviguer"
+                width={46}
+                height={46}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </div>
             <div>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 15, color: 'var(--text)', letterSpacing: '-0.01em' }}>Naviguer</div>
-              <div style={{ fontSize: 10, color: 'var(--text-muted)', letterSpacing: '0.06em', marginTop: 1 }}>USTHB · BDD 2025</div>
+              <div style={{
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontWeight: 800, fontSize: 16,
+                color: '#ffffff',
+                letterSpacing: '-0.01em',
+              }}>Naviguer</div>
+              <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', letterSpacing: '0.05em', marginTop: 1 }}>
+                USTHB · BDD 2025
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Nav */}
-        <nav style={{ flex: 1, padding: '16px 12px', overflowY: 'auto' }}>
+        {/* Label nav */}
+        <div style={{
+          padding: '20px 20px 8px',
+          fontSize: 10, fontFamily: 'Plus Jakarta Sans, sans-serif',
+          fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.35)',
+        }}>
+          Navigation
+        </div>
+
+        {/* Nav links */}
+        <nav style={{ flex: 1, padding: '4px 12px', overflowY: 'auto' }}>
           {navItems.map(({ href, icon, label }) => {
             const active = router.pathname === href;
             return (
               <Link key={href} href={href} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '9px 12px',
-                borderRadius: 8,
-                marginBottom: 2,
-                background: active ? 'rgba(59,130,246,.12)' : 'transparent',
-                color: active ? 'var(--accent)' : 'var(--text-muted)',
-                fontFamily: 'Syne, sans-serif',
-                fontWeight: active ? 600 : 400,
-                fontSize: 13,
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '10px 12px', borderRadius: 10, marginBottom: 2,
+                background: active ? 'rgba(255,255,255,0.15)' : 'transparent',
+                color: active ? '#ffffff' : 'rgba(255,255,255,0.6)',
+                fontFamily: 'Plus Jakarta Sans, sans-serif',
+                fontWeight: active ? 700 : 500,
+                fontSize: 13.5,
                 transition: 'all 0.15s',
-                borderLeft: active ? '2px solid var(--accent)' : '2px solid transparent',
+                textDecoration: 'none',
+                borderLeft: active ? '3px solid #60a5fa' : '3px solid transparent',
+              }}
+              onMouseEnter={e => {
+                if (!active) {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                  e.currentTarget.style.color = '#ffffff';
+                }
+              }}
+              onMouseLeave={e => {
+                if (!active) {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
+                }
               }}>
-                <span style={{ fontSize: 16, opacity: active ? 1 : 0.5 }}>{icon}</span>
+                <span style={{
+                  width: 30, height: 30,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  borderRadius: 8,
+                  background: active ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.07)',
+                  fontSize: 14, flexShrink: 0,
+                }}>{icon}</span>
                 {label}
+                {active && (
+                  <span style={{
+                    marginLeft: 'auto', width: 6, height: 6,
+                    borderRadius: '50%', background: '#60a5fa', flexShrink: 0,
+                  }} />
+                )}
               </Link>
             );
           })}
         </nav>
 
         {/* Footer */}
-        <div style={{ padding: '16px 24px', borderTop: '1px solid var(--border)' }}>
-          <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-            <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 600, color: 'var(--text-dim)' }}>Dr. LAHRECHE A.</div>
+        <div style={{
+          padding: '16px 20px',
+          borderTop: '1px solid rgba(255,255,255,0.1)',
+          background: 'rgba(0,0,0,0.15)',
+        }}>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', lineHeight: 1.7 }}>
+            <div style={{ fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600, color: 'rgba(255,255,255,0.65)', marginBottom: 2 }}>
+              Dr. LAHRECHE A.
+            </div>
             <div>Faculté d'Informatique</div>
             <div>2ème Année Ingéniorat</div>
           </div>
         </div>
       </aside>
 
-      {/* Main content */}
-      <main style={{ marginLeft: 240, flex: 1, padding: '32px', minHeight: '100vh' }}>
+      {/* ── Main ── */}
+      <main style={{ marginLeft: 240, flex: 1, padding: '32px', minHeight: '100vh', background: '#f0f4f8' }}>
         {children}
       </main>
     </div>

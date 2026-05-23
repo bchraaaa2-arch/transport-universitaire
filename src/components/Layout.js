@@ -76,7 +76,7 @@ export default function Layout({ children }) {
               <div style={{
                 fontSize: 10, color: 'rgba(255,255,255,0.45)',
                 letterSpacing: '0.05em', marginTop: 1,
-              }}>USTHB · BDD 2025</div>
+              }}>USTHB · BDD </div>
             </div>
           </div>
         </div>

@@ -54,7 +54,7 @@ export default function Dashboard() {
             fontSize: 11, color: 'rgba(255,255,255,0.55)',
             letterSpacing: '0.1em', textTransform: 'uppercase',
             fontFamily: 'Plus Jakarta Sans, sans-serif', marginBottom: 10,
-          }}>Vue d'ensemble · 2025-2026</div>
+          }}>Vue d'ensemble</div>
 
           <h1 style={{
             fontSize: 27, fontWeight: 800, color: '#ffffff',
